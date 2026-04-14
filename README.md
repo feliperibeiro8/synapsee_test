@@ -6,9 +6,7 @@ O objetivo é demonstrar habilidades em desenvolvimento de sistemas com integra�
 
 ## Estrutura do Projeto
 
-* `backend/` — API responsável pela lógica e integração com o modelo
-* `frontend/` — Interface simples para interação com o usuário
-* `docs/` — Documentação e planejamento 
+(em construção)
 
 ## Como executar
 
