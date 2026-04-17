@@ -88,19 +88,16 @@ def process_documents(docs):
         sections = split_by_sections(text)
 
         for sec in sections:
-            section_name = sec["section"].lower() if sec["section"] else ""
+            section_name = sec["section"].lower() if sec["section"] else doc["title"]
 
-            # ignora seções irrelevantes
+            # Ignora seções irrelevantes
             if section_name in skip_sections:
                 continue
 
             cleaned = clean_text(sec["text"])
 
-            # mantém contexto rico para o próximo passo (chunking)
-            enriched_text = f"{title}\n{sec['section']}\n{cleaned}"
-
             processed.append({
-                "text": enriched_text,
+                "text": cleaned,
                 "title": title,
                 "section": sec["section"],
                 "level": sec["level"],
