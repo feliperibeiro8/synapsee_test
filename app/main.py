@@ -1,33 +1,24 @@
-from pipeline.data_loader import load_markdowns
-from pipeline.preprocessing import process_documents
-from pipeline.chunking import chunk_text
-from utils import save_chunks
+from services.search import SearchService
 
 def main():
-    docs = load_markdowns()
-    docs_clean = process_documents(docs)
+    search_service = SearchService()
 
-    all_chunks = []
+    while True:
+        query = input("\nPergunta: ")
 
-    for doc in docs_clean:
-        chunks = chunk_text(doc['text'])
+        if query.lower() == "sair":
+            break
 
-        for i, chunk in enumerate(chunks):
-            all_chunks.append({
-                "id": f"{doc['section']}_{i}",
-                "text": chunk,
-                "title": doc["title"],
-                "source": doc["source"],
-                "section": doc["section"]
-            })
+        results = search_service.search(query)
 
-    print(f"{len(docs)} documentos carregados")
-    print(f"{len(all_chunks)} chunks gerados")
+        print("\nResultados:\n")
 
-    save_chunks(all_chunks, "app/data/processed/chunks.json")
+        for r in results:
+            print(f"[{r['title']} - {r['section']}]")
+            print(r["text"])
+            print("-" * 50)
+            print("source:", r['source'])
 
-    print("Chunks salvos com sucesso!")
 
 if __name__ == "__main__":
     main()
-
