@@ -9,14 +9,22 @@ class SearchService:
         with open("app/data/processed/chunks.json", "r", encoding="utf-8") as f:
             self.chunks = json.load(f)
     
+    def capitalize_first(self, text):
+        if not text:
+            return text
+        return text[0].upper() + text[1:]
+
+
     def search(self, query, k=3):
         query_embedding = self.model.encode([query])
-
         distances, indices = self.index.search(query_embedding, k)
 
         results = []
-        for i in indices[0]:
-            results.append(self.chunks[i])
-        
-        results[0][0] = results[0][0].upper()
+
+        for i, dist in zip(indices[0], distances[0]):
+            chunk = self.chunks[i].copy()
+            chunk["text"] = self.capitalize_first(chunk["text"])
+            chunk["score"] = float(dist)
+            results.append(chunk)
+
         return results

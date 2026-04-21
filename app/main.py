@@ -9,7 +9,7 @@ def main():
         if query.lower() == "sair":
             break
 
-        results = search_service.search(query)
+        results = search_service.search(query, k=1)
 
         print("\nResultados:\n")
 
@@ -18,7 +18,6 @@ def main():
             print(r["text"])
             print("-" * 50)
             print("source:", r['source'])
-
 
 if __name__ == "__main__":
     main()
