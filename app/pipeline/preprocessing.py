@@ -51,9 +51,11 @@ def split_by_sections(text: str):
 
     return sections
 
+import re
+
 def clean_text(text: str) -> str:
     """
-    Limpeza leve para preservar estrutura útil para embeddings
+    Limpeza leve, mas remove conteúdo inútil para embeddings
     """
 
     # Remove markdown básico
@@ -63,7 +65,18 @@ def clean_text(text: str) -> str:
     # Remove referências tipo [1], [23]
     text = re.sub(r"\[\d+\]", "", text)
 
-    # Normaliza quebras de linha (mantém parágrafos)
+    # Remove URLs
+    text = re.sub(r"http\S+", "", text)
+
+    # Remove linhas com DOI, Bibcode, ISBN
+    text = re.sub(r"(?i)(doi:|bibcode:|isbn:).*", "", text)
+
+    # Remove seções inúteis comuns
+    text = re.sub(r"(?i)further reading.*", "", text)
+    text = re.sub(r"(?i)see also.*", "", text)
+    text = re.sub(r"(?i)references.*", "", text)
+
+    # Remove múltiplas quebras de linha
     text = re.sub(r"\n{3,}", "\n\n", text)
 
     return text.strip()
