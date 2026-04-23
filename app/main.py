@@ -1,4 +1,5 @@
 from services.search import SearchService
+from services.chatbot import build_prompt, generate_answer
 
 def main():
     search_service = SearchService()
@@ -9,15 +10,22 @@ def main():
         if query.lower() == "sair":
             break
 
-        results = search_service.search(query)
+        chunks = search_service.search(query, k=5)
 
-        print("\nResultados:\n")
+        if not chunks:
+            print("\nResposta:\nNão encontrei informação relevante.")
+            continue
 
-        for r in results:
-            print(f"[{r['title']} - {r['section']}]")
-            print(r["text"])
-            print("-" * 50)
-            print("source:", r['source'])
+        prompt = build_prompt(query, chunks)
+        
+        print("\nPROMPT PARA DEBUG:\n")
+        print(prompt)
+
+        answer = generate_answer(prompt)
+
+        print("\nResposta:\n")
+        print(answer)
+
 
 if __name__ == "__main__":
     main()
