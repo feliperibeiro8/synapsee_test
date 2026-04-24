@@ -25,7 +25,7 @@ if query:
         chunks = chunks[:3]
 
         if not chunks:
-            st.warning("Didn't find any relevant information.")
+            st.warning("I couldn't find relevant information in the knowledge base to answer your question. Try rephrasing it or asking about a related topic.")
         else:
             prompt = build_prompt(query, chunks)
             answer = generate_answer(prompt)
