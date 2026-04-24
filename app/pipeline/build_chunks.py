@@ -1,7 +1,7 @@
 from pipeline.data_loader import load_markdowns
 from pipeline.preprocessing import process_documents
 from pipeline.chunking import chunk_text
-from utils import save_chunks
+from pipeline.utils import save_chunks
 
 def main():
 
@@ -23,9 +23,6 @@ def main():
                 "source": doc["source"],
                 "section": doc["section"]
             })
-
-    print(f"{len(docs)} documentos carregados")
-    print(f"{len(all_chunks)} chunks gerados")
 
     save_chunks(all_chunks, "app/data/processed/chunks.json")
 

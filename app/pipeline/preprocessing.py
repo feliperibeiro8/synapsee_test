@@ -51,8 +51,6 @@ def split_by_sections(text: str):
 
     return sections
 
-import re
-
 def clean_text(text: str) -> str:
     """
     Limpeza leve, mas remove conteúdo inútil para embeddings
